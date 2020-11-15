@@ -1,0 +1,27 @@
+{
+  "name": "berytech-boilerplate-express",
+  "version": "1.0.0",
+  "description": "A nodejs express and ejs ui boilerplate",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node ./bin/www"
+  },
+  "keywords": [
+    "boilerplate",
+    "berytech"
+  ],
+  "author": "Salah Awad",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "axios": "^0.20.0",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.10.7"
+  }
+}
