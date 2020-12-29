@@ -25,7 +25,7 @@ mongoose.connect(mongoDB, {
 
 //read excel file team-name column & add to object []
 const result = excelToJson({
-    sourceFile: './Data.xlsx',
+    sourceFile: './uploads/Data.xlsx',
     header:{
         rows: 1
     },
