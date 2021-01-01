@@ -25,6 +25,8 @@ mongoose.connect(mongoDB, {
 
 //read excel file team-name column & add to object []
 const result = excelToJson({
+    //Q1. once I upload excel file how I can call it with not specific name??
+    //Q2. how I can run this function after uploading the file 
     sourceFile: './routes/uploads/Data.xlsx',
     header:{
         rows: 1
