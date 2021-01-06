@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var formidable = require('formidable');
 require('dotenv').config();
 
 var app = express();
@@ -38,7 +38,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/*app.get('/', function (req, res){
+app.get('/', function (req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
@@ -56,6 +56,6 @@ app.post('/', function (req, res){
   });
 
   res.sendFile(__dirname + '/index.html');
-});*/
+});
 
 module.exports = app;

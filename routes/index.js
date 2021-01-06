@@ -1,7 +1,7 @@
 var express = require('express');
 var ctrl = require('../controllers/ItemController')
 var router = express.Router();
-var formidable = require('formidable');
+//var formidable = require('formidable');
 
 //connecting to the database
 var mongoDB = process.env.dburl;
@@ -16,7 +16,7 @@ mongoose.connect(mongoDB, {
   });
 });*/
 
-router.get('/', function (req, res){
+/*router.get('/', function (req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
@@ -34,7 +34,7 @@ router.post('/', function (req, res){
   });
 
   res.sendFile(__dirname + '/index.html');
-});
+});*/
 
 
 module.exports = router;
