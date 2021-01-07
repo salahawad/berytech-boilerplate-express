@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var formidable = require('formidable');
 require('dotenv').config();
-
+//
 var app = express();
 
 // view engine setup
@@ -17,7 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/', express.static(path.join(__dirname, '')));
+//app.use(express.static(__dirname + "/public"));
 
 var indexRouter = require('./routes/index');
 app.use('/', indexRouter);
@@ -38,7 +39,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.get('/', function (req, res){
+
+/*app.get('/', function (req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
@@ -56,6 +58,6 @@ app.post('/', function (req, res){
   });
 
   res.sendFile(__dirname + '/index.html');
-});
+});*/
 
 module.exports = app;
