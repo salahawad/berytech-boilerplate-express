@@ -28,7 +28,9 @@ router.post('/', function (req, res){
   form.parse(req);
 
   form.on('fileBegin', function (name, file){
-      file.path = __dirname + './../uploads/' + file.name;
+    //what is we have different file name entered?
+      //file.path = __dirname + './../uploads/' + file.name;
+      file.path = __dirname + './../uploads/' + "Data.xlsx";
       //UGctrl.CreateUG(); it seems like the file not uploaded yet
   });
 
