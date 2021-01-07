@@ -1,5 +1,6 @@
 var express = require('express');
 var ctrl = require('../controllers/ItemController')
+var UGctrl = require('../controllers/usrgroupController')
 var router = express.Router();
 var formidable = require('formidable');
 
@@ -35,6 +36,7 @@ router.post('/', function (req, res){
   });
 
   res.sendFile(__dirname + './../index.html');
+  UGctrl.CreateUG();
 });
 
 
