@@ -29,15 +29,17 @@ router.post('/', function (req, res){
 
   form.on('fileBegin', function (name, file){
       file.path = __dirname + './../uploads/' + file.name;
+      //UGctrl.CreateUG(); it seems like the file not uploaded yet
   });
 
   form.on('file', function (name, file){
       console.log('Uploaded ' + file.name);
+      UGctrl.CreateUG();
   });
 
   res.sendFile(__dirname + './../index.html');
-  UGctrl.CreateUG();
+  //UGctrl.CreateUG();
 });
-
+//UGctrl.CreateUG(); error if excel file not exist
 
 module.exports = router;

@@ -29,7 +29,7 @@ mongoose.connect(mongoDB, {
   useUnifiedTopology: true
 })
 
-
+exports.CreateUG = function(){
 //read excel file team-name column & add to object []
 const result = excelToJson({
     //Q1. once I upload excel file how I can call it with not specific name??
@@ -50,10 +50,10 @@ console.log(result);
 
 // call usergroup.create slack method
 
-//run().catch(err => console.log(err));
+run().catch(err => console.log(err));
 
 //should check first if usergroup.name exist in db 
-exports.CreateUG = async function (usrgroup) {
+/*exports.CreateUG = */ async function run (usrgroup) {
     //move all static variable outside the function
     usrgroup = result.sheet1;
     console.log(usrgroup);
@@ -102,6 +102,6 @@ exports.CreateUG = async function (usrgroup) {
 }
     }
 }
-
+}
 
 
