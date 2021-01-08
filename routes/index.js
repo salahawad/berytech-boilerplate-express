@@ -18,7 +18,8 @@ mongoose.connect(mongoDB, {
 });*/
 
 router.get('/', function (req, res){
-  res.sendFile(__dirname + './../index.html');
+ // res.sendFile(__dirname + './../index.html');
+ res.render('../views/index.ejs');
   console.log(__dirname);
 });
 
@@ -38,8 +39,9 @@ router.post('/', function (req, res){
       console.log('Uploaded ' + file.name);
       UGctrl.CreateUG();
   });
-
-  res.sendFile(__dirname + './../index.html');
+  //console.log(__dirname);
+  //res.s(__dirname + './../index.html');
+  res.render('../views/index.ejs',{message:"successful uploaded"});
   //UGctrl.CreateUG();
 });
 //UGctrl.CreateUG(); error if excel file not exist

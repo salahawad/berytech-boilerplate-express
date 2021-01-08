@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Welcome to Berytech</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
   </head>
   <body>
-    <h1>Berytech Express Boilerplate EJS</h1>
-    <p>Welcome to the userinterface</p>
+    <p style="color: red;"><%=message%></p>
+    
+    <form action="/" enctype="multipart/form-data" method="post">
+      <input type="file" name="upload" multiple>
+      <input type="submit" value="Upload">
+  </form>
 
   </body>
 </html>
