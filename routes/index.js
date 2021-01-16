@@ -2,6 +2,7 @@ var express = require('express');
 //var ctrl = require('../controllers/ItemController')
 var UsrGroupctrl = require('../controllers/usrgroupController')
 var UsrGroupListctrl = require('../controllers/usergroupList')
+var ctrl = require('../controllers/function')
 var router = express.Router();
 var formidable = require('formidable');
 
@@ -40,10 +41,15 @@ router.post('/', function (req, res){
 
   form.on('file', function (name, file){
       console.log('Uploaded ' + file.name);
-      UsrGroupctrl.CreateUG();
+      //UsrGroupctrl.CreateUG();
   });
 
   res.render('../views/index.ejs',{message:"successful uploaded"},);
 });
+
+router.get('/hi', function (req, res){
+  res.send(UsrGroupctrl.CreateUG());
+});
+
 
 module.exports = router;

@@ -45,7 +45,7 @@ for (var j = 0; j < result.sheet1.length; j++) {
     }
 }
 //console.log(arrUG);
-
+var message="";
 
 run().catch(err => console.log(err));
 
@@ -57,7 +57,7 @@ async function run(usrgroup) {
     const database = client.db("gardeniadb");
     const collection = database.collection("UserGroup");
     
-    var message="";
+    //var message="";
     for (var i = 0; i < usrgroup.length; i++) {
         const query = { name: usrgroup[i]};
     
@@ -91,8 +91,10 @@ async function run(usrgroup) {
     }
     }
     console.log(message);
-    return message;
+    //return message;
+    
 }
 arrUG = [];
+return ("after execution" + message );
 }
 
