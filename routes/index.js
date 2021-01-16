@@ -1,5 +1,5 @@
 var express = require('express');
-var ctrl = require('../controllers/ItemController')
+//var ctrl = require('../controllers/ItemController')
 var UsrGroupctrl = require('../controllers/usrgroupController')
 var UsrGroupListctrl = require('../controllers/usergroupList')
 var router = express.Router();
@@ -17,9 +17,12 @@ mongoose.connect(mongoDB, {
     title: 'Berytech'
   });
 });*/
+router.get('/table', function (req, res){
+  res.render('../views/sampletable.ejs');
+});
 
 router.get('/', function (req, res){
-  res.render('../views/sampletable.ejs');
+  //res.render('../views/sampletable.ejs');
  res.render('../views/index.ejs');
 });
 
@@ -40,7 +43,7 @@ router.post('/', function (req, res){
       UsrGroupctrl.CreateUG();
   });
 
-  res.render('../views/index.ejs',{message:"successful uploaded"});
+  res.render('../views/index.ejs',{message:"successful uploaded"},);
 });
 
 module.exports = router;
