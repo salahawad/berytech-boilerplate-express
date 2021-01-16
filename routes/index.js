@@ -19,7 +19,7 @@ mongoose.connect(mongoDB, {
 });*/
 
 router.get('/', function (req, res){
- // res.sendFile(__dirname + './../index.html');
+  res.render('../views/sampletable.ejs');
  res.render('../views/index.ejs');
 });
 
@@ -34,7 +34,7 @@ router.post('/', function (req, res){
       //UGctrl.CreateUG(); it seems like the file not uploaded yet
   });
   UsrGroupListctrl.fetchUsrGroupList();
-  
+
   form.on('file', function (name, file){
       console.log('Uploaded ' + file.name);
       UsrGroupctrl.CreateUG();

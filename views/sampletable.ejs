@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<!-- Write your comments here -->
+
+<link rel="stylesheet" type="text/css" href="excel-2007.css"/>
+
+<script lang="javascript">
+function ChangeTableClass(newClass)
+{
+	document.getElementById("TheTable").className = "ExcelTable" + newClass;
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Table Excel-lookalike Sample</title>
+</head>
+<body>
+Sample format table<p>
+<!--Write your comments here -->
+Select look: 
+<select onchange='ChangeTableClass(this.options[this.selectedIndex].value);'>
+<option value="None">HTML Default</option>
+<option value="2007">Excel 2007</option>
+</select>
+
+
+<p />
+
+<table id="TheTable"
+border="1"
+class=""
+>
+<tr><th class="heading">&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
+<tr><td
+align="left"
+valign="bottom"
+class="heading"
+>1</td
+><td
+align="left"
+valign="bottom"
+><b>first name</b></td
+><td
+align="right"
+valign="bottom"
+><b>last name</b></td
+><td
+align="right"
+valign="bottom"
+><b>email</b></td
+><td
+align="right"
+valign="bottom"
+><b>team-name</b></td
+></tr
+><tr
+><td class="heading">2</td
+><td
+align="left"
+valign="bottom"
+><b
+>Rana</b
+></td
+><td
+align="right"
+valign="bottom"
+><b
+>sawaya</b</td
+><td
+align="right"
+valign="bottom"
+><b
+>RanaS@gmail.com</b</td
+><td
+align="right"
+valign="bottom"
+><b
+>Team 1</b</td
+></tr
+><tr
+><td class="heading">3</td
+><td
+align="left"
+valign="bottom"
+>Gardenia </td
+><td
+align="right"
+valign="bottom"
+>Homsi</td
+><td
+align="right"
+valign="bottom"
+>gardiniahomsi@gmail.com</td
+><td
+align="right"
+valign="bottom"
+>Team 2</td
+></tr
+><tr
+><td class="heading">4</td
+><td
+align="left"
+valign="bottom"
+>Sevag </td
+><td
+align="right"
+valign="bottom"
+>Bakikian</td
+><td
+align="right"
+valign="bottom"
+>SevagB@gmail.com</td
+><td
+align="right"
+valign="bottom"
+>Team 3</td
+</tr>
+</table
+></body></html>
