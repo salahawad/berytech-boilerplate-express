@@ -14,14 +14,6 @@ const client = new MongoClient(uri,{
     useUnifiedTopology: true
   });
 
-/*
-var ax = require('axios').create({
-    baseURL: process.env.typeformurl,
-    headers: {
-        authorization: 'Bearer ' + process.env.tfauthcode
-    }
-});
-*/
 
 //connecting to the database
 mongoose.connect(mongoDB, {
@@ -30,10 +22,8 @@ mongoose.connect(mongoDB, {
 })
 
 exports.CreateUG = function(){
-//read excel file team-name column & add to object []
-const result = excelToJson({
-    //Q1. once I upload excel file how I can call it with not specific name??
-    //Q2. how I can run this function after uploading the file 
+//read excel file and convert it to json form
+const result = excelToJson({ 
     sourceFile: __dirname + './../uploads/Data.xlsx',
     header:{
         rows: 1
@@ -46,62 +36,63 @@ const result = excelToJson({
         E: 'action'
     }
 });
-console.log(result);
+console.log(result.sheet1);
+//remover repetition in team-name column from json format and save it in array
+arrUG = [];
+for (var j = 0; j < result.sheet1.length; j++) {
+    if(arrUG.indexOf(result.sheet1[j].teamName) == -1 ){
+        arrUG.push(result.sheet1[j].teamName);
+    }
+}
+//console.log(arrUG);
 
-// call usergroup.create slack method
 
 run().catch(err => console.log(err));
 
-//should check first if usergroup.name exist in db 
-/*exports.CreateUG = */ async function run (usrgroup) {
+async function run(usrgroup) {
     //move all static variable outside the function
-    usrgroup = result.sheet1;
-    console.log(usrgroup);
-  /*chec db if(result ===null) 
-       return usergroupname already exist
-       else: call API     
-  */
+    usrgroup = arrUG;
+
     await client.connect();
     const database = client.db("gardeniadb");
     const collection = database.collection("UserGroup");
     
-
+    var message="";
     for (var i = 0; i < usrgroup.length; i++) {
-        const query = { name: usrgroup[i].teamName};
-     //console.log(query);
-      const UG = await collection.findOne(query);
-      // since this method returns the matched document, not a cursor, print it directly
-      if(UG === null){
-        console.log(usrgroup[i].teamName + "not exist");
-
-        const res = await axios.post(url, {
-        channel: 'general',
-        name: usrgroup[i].teamName
-        }, { headers: { authorization: `Bearer ${slackToken}` } });
-
-    console.log('Done', res.data);
-    // show the output before save it in db
-    // save output in obj variable 
-    if(!res.data) return;
-    var obj = res.data;
-
-    //if(res.data.ok === true){
-        console.log(obj.usergroup.name + " is created");
-    //}
+        const query = { name: usrgroup[i]};
     
-    //create new logger and log it as
+        const UG = await UserGroup.findOne(query);
+        if(!UG){
+            console.log(usrgroup[i] + "not exist");
     
-    //if usergroup is created already
-    var groups = new UserGroup({ name: obj.usergroup.name, id: obj.usergroup.id, status: "active" });
-    await groups.save(function (err) {
-    if (err) return handleError(err);
-      console.log("this document is saved");
-    });
-}else{
-    console.log(usrgroup[i].teamName + " already exist");
-}
+            const res = await axios.post(url, {
+            channel: 'general',
+            name: usrgroup[i]
+            }, { headers: { authorization: `Bearer ${slackToken}` } });
+
+            console.log('Done', res.data);
+
+            if(!res.data) return;
+            if(res.data.ok == false) return;
+            var userGroup = res.data.usergroup;
+
+            console.log(userGroup.name + " is created");
+    
+            await UserGroup.create({ name: userGroup.name , id: userGroup.id, status: "active" },(err,data)=>{
+                //console.log(userGroup.name + " this document is saved");
+                message+= userGroup.name + " this document is saved";
+                message+="  ";
+            });
+
+        }else{
+            message+= usrgroup[i] + " already exist";
+            message+="  ";
+
     }
+    }
+    console.log(message);
+    return message;
 }
+arrUG = [];
 }
-
 

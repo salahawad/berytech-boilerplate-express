@@ -1,6 +1,7 @@
 var express = require('express');
 var ctrl = require('../controllers/ItemController')
-var UGctrl = require('../controllers/usrgroupController')
+var UsrGroupctrl = require('../controllers/usrgroupController')
+var UsrGroupListctrl = require('../controllers/usergroupList')
 var router = express.Router();
 var formidable = require('formidable');
 
@@ -20,7 +21,6 @@ mongoose.connect(mongoDB, {
 router.get('/', function (req, res){
  // res.sendFile(__dirname + './../index.html');
  res.render('../views/index.ejs');
-  console.log(__dirname);
 });
 
 router.post('/', function (req, res){
@@ -29,21 +29,18 @@ router.post('/', function (req, res){
   form.parse(req);
 
   form.on('fileBegin', function (name, file){
-    //what is we have different file name entered?
-      //file.path = __dirname + './../uploads/' + file.name;
+
       file.path = __dirname + './../uploads/' + "Data.xlsx";
       //UGctrl.CreateUG(); it seems like the file not uploaded yet
   });
-
+  UsrGroupListctrl.fetchUsrGroupList();
+  
   form.on('file', function (name, file){
       console.log('Uploaded ' + file.name);
-      UGctrl.CreateUG();
+      UsrGroupctrl.CreateUG();
   });
-  //console.log(__dirname);
-  //res.s(__dirname + './../index.html');
+
   res.render('../views/index.ejs',{message:"successful uploaded"});
-  //UGctrl.CreateUG();
 });
-//UGctrl.CreateUG(); error if excel file not exist
 
 module.exports = router;
