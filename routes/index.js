@@ -47,7 +47,7 @@ router.post('/', function (req, res){
   res.render('../views/index.ejs',{message:"successful uploaded"},);
 });
 
-router.get('/hi', function (req, res){
+router.get('/result', function (req, res){
   res.send(UsrGroupctrl.CreateUG());
 });
 
