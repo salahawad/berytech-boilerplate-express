@@ -11,7 +11,7 @@
    -action needed to perform by admin.(add user, delete user)
  2. once the file uploaded, the application will create the usergroups(team-name) into slackworkspace.
 
-#Setting
-#Environment Variables
+# Setting
+# Environment Variables
 You should set environment variables directly or in .env file
 
