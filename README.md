@@ -5,9 +5,9 @@
  
  the application scope now is to create usergroups into workspace, this how it works?
  1. admin can upload an excel file composed mainly of :
-     -user first-name
-     -user last-name
-     -user team-name
+       -user first-name
+       -user last-name
+       -user team-name
      -action needed to perform by admin.(add user, delete user)
  2. once the file uploaded, the application will create the usergroups(team-name) into slackworkspace.
 
