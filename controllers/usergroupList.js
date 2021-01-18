@@ -1,62 +1,86 @@
-const slackToken =process.env.token;
-const url = 'https://slack.com/api/usergroups.list';
-const axios = require('axios');
-const { MongoClient } = require("mongodb");
-var mongoDB =process.env.dburl;
-var UserGroup = require('../models/usrgroup');
-const uri ="mongodb://localhost:27017/";
-const client = new MongoClient(uri,{
+const slackToken = process.env.token;
+const url = "https://slack.com/api/usergroups.list";
+const axios = require("axios");
+const {
+    MongoClient
+} = require("mongodb");
+var mongoDB = process.env.dburl;
+var UserGroup = require("../models/usrgroup");
+
+const client = new MongoClient(process.env.dburl, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+    useUnifiedTopology: true,
+});
 
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 mongoose.connect(mongoDB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 exports.fetchUsrGroupList = async function () {
-    
+    var message = "";
     await client.connect();
     const database = client.db("gardeniadb");
     const collection = database.collection("UserGroup");
 
     //deactivate all user group status in database
-    const resul = await collection.updateMany({status: "active" }, {$set: {status: "deactive"} });
-    console.log(resul.result.nModified + " documents deactivate its status in database");
+    const updatedData = await collection.updateMany({
+        status: "active"
+    }, {
+        $set: {
+            status: "deactive"
+        }
+    });
+    console.log(
+        updatedData.result.nModified +
+        " documents deactivate its status in database"
+    );
 
     //call API to fetch usergroup list from slackworkspace
-    const res = await axios.post(url, {
-    }, { headers: { authorization: `Bearer ${slackToken}` } });
-    //console.log(url+' call done', res.data);
-    if(!res.data) return;
-
+    const res = await axios.post(
+        url, {}, {
+            headers: {
+                authorization: `Bearer ${slackToken}`
+            }
+        }
+    );
+    
+    if (!res.data) return;
     var arrUserGroups = res.data.usergroups;
-   
-    var message="";
+
     for (var i = 0; i < arrUserGroups.length; i++) {
-       var usrgroupName= arrUserGroups[i].name;
-       
-        query = {name: usrgroupName}
+        var usrgroupName = arrUserGroups[i].name;
+
+        let query = {
+            name: usrgroupName
+        };
 
         // check if usergroup name exist in local db
-       const findUG = await collection.findOne(query);
-        //if result == null || usergroup not exist
+        const findUG = await collection.findOne(query);
+       
         // add to db and activate status
-        if (!findUG ){
-            await UserGroup.create({ name: usrgroupName, id: arrUserGroups[i].id, status: "active" },(err,data)=>{
-                message+= data.name+" this document is saved";
-                message+="  ";
-            });
-            //console.log(usrgroupName +  ' saved');
-        }else{
+        if (!findUG) {
+            await UserGroup.create({
+                    name: usrgroupName,
+                    id: arrUserGroups[i].id,
+                    status: "active"
+                },
+                (err, data) => {
+                    message += data.name + " this document is saved";
+                    message += "  ";
+                }
+            );        
+        } else {
             //update usergroup status to active if already exist in local db
-            const update = await collection.updateOne(query, {$set: {status: "active"} });
-            message+=usrgroupName+ " activate its status";
-            message+="  ";
+           await collection.updateOne(query, {
+                $set: {
+                    status: "active"
+                },
+            });
+            message += usrgroupName + " activate its status";
+            message += "  ";
         }
-   }
+    }
     return message;
-}
+};

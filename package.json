@@ -14,7 +14,7 @@
   "author": "Salah Awad",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "convert-excel-to-json": "^1.7.0",
     "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
