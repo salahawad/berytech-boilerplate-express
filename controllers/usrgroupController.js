@@ -33,7 +33,6 @@ const result = excelToJson({
         B: 'lastName',
         C: 'email',
         D: 'teamName',
-        E: 'action'
     }
 });
 console.log(result.sheet1);
