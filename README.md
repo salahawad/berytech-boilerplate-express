@@ -14,4 +14,7 @@
 # Setting
 # Environment Variables
 You should set environment variables directly or in .env file
+* dburl="your mongodb url"
+* PORT=3001
+* token= 'xoxp-********'
 
