@@ -2,8 +2,8 @@
  A tiny web application that aims to interact with slack to automate some tasks on slackworkspace like:
  * invite users to slackworkspace.
  * create usergroups directly in slackworkspace.
- the application scope now is to create usergroups into workspace:
- How it works?
+ 
+ the application scope now is to create usergroups into workspace, this how it works?
  1. admin can upload an excel file composed mainly of :
    -user first-name
    -user last-name
