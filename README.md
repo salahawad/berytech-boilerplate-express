@@ -13,8 +13,9 @@
 
 # Setting
 # Environment Variables
-You should set environment variables directly or in .env file
-* dburl="your mongodb url"
+You should set environment variables directly or in .env file, so 
+create a file in the root called .env with the following key/value pairs. (.env files are added to the .gitignore.)
+* dburl="mongodb://localhost:27017/dbName"
 * PORT=3001
-* token= 'xoxp-********'
+* token= 'xoxp-xxxx-xxxxxxxxx-xxxx'
 
