@@ -29,14 +29,12 @@ router.post('/', function (req, res) {
   form.parse(req);
 
   form.on('fileBegin', function (name, file) {
-    file.path = '/uploads/Data.xlsx';
+    console.log(file);
   });
   //fetch usergroup list to update local db before call createUG() function
   UsrGroupListctrl.fetchUsrGroupList();
 
   form.on('file', function (name, file) {
-    console.log('Uploaded ' + file.name);
-    //UsrGroupctrl.CreateUG();
   });
 
   res.render('index.ejs', {
