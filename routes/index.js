@@ -29,17 +29,20 @@ router.post('/', function (req, res) {
   form.parse(req);
 
   form.on('fileBegin', function (name, file) {
-    console.log(file);
-  });
-  //fetch usergroup list to update local db before call createUG() function
-  UsrGroupListctrl.fetchUsrGroupList();
+    });
+ 
 
   form.on('file', function (name, file) {
+    console.log(file);
+     //fetch usergroup list to update local db before call createUG() function
+    let msg= UsrGroupctrl.CreateUG(file);
+     UsrGroupListctrl.fetchUsrGroupList().then((message)=>{
+      res.render('index.ejs', {
+        message: `successful uploaded with the following status: <br/> ${msg} <br/> ${message} `
+      });
+    });     
   });
-
-  res.render('index.ejs', {
-    message: "successful uploaded"
-  });
+ 
 });
 //trying to show returned message after calling CreateUG() but it seems that message doesn't show
 router.get('/result', function (req, res) {

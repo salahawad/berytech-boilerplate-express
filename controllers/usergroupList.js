@@ -18,7 +18,7 @@ mongoose.connect(mongoDB, {
     useUnifiedTopology: true,
 });
 
-exports.fetchUsrGroupList = async function () {
+exports.fetchUsrGroupList = async  (file)=> {
     var message = "";
     await client.connect();
     const database = client.db("gardeniadb");
@@ -34,7 +34,7 @@ exports.fetchUsrGroupList = async function () {
     });
     console.log(
         updatedData.result.nModified +
-        " documents deactivate its status in database"
+        " usergroups deactivate its status in database"
     );
 
     //call API to fetch usergroup list from slackworkspace
@@ -67,8 +67,8 @@ exports.fetchUsrGroupList = async function () {
                     status: "active"
                 },
                 (err, data) => {
-                    message += data.name + " this document is saved";
-                    message += "  ";
+                    message +=  ` the ${ data.name} document is saved <br/>`;
+                   
                 }
             );        
         } else {
@@ -78,8 +78,8 @@ exports.fetchUsrGroupList = async function () {
                     status: "active"
                 },
             });
-            message += usrgroupName + " activate its status";
-            message += "  ";
+            message += `${usrgroupName} activate its status <br/> `;
+            
         }
     }
     return message;
