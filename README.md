@@ -1,7 +1,7 @@
 # berytech-boilerplate-express
  A tiny web application that aims to interact with slack to automate some tasks on slackworkspace like:
- -invite users to slackworkspace.
- -create usergroups directly in slackworkspace.
+ * invite users to slackworkspace.
+ * create usergroups directly in slackworkspace.
  the application scope now is to create usergroups into workspace:
  How it works?
  1. admin can upload an excel file composed mainly of :
