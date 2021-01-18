@@ -16,7 +16,6 @@ mongoose.connect(mongoDB, {
   useUnifiedTopology: true
 })
 
-//run().catch(err => console.log(err));
 
 exports.fetchUsrGroupList = async function () {
     
@@ -42,23 +41,22 @@ exports.fetchUsrGroupList = async function () {
        
         query = {name: usrgroupName}
 
-        // check if usergroup exist in local db
+        // check if usergroup name exist in local db
        const findUG = await collection.findOne(query);
-        //if result == null usergroup not exist
-        // add to db and activated status
+        //if result == null || usergroup not exist
+        // add to db and activate status
         if (!findUG ){
             await UserGroup.create({ name: usrgroupName, id: arrUserGroups[i].id, status: "active" },(err,data)=>{
                 message+= data.name+" this document is saved";
                 message+="  ";
             });
-            console.log(usrgroupName +  ' saved');
+            //console.log(usrgroupName +  ' saved');
         }else{
-            //update usergroup status to active
+            //update usergroup status to active if already exist in local db
             const update = await collection.updateOne(query, {$set: {status: "active"} });
             message+=usrgroupName+ " activate its status";
             message+="  ";
         }
    }
-   //console.log(message);
     return message;
 }

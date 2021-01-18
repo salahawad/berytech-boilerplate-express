@@ -13,18 +13,13 @@ mongoose.connect(mongoDB, {
   useNewUrlParser: true
 })
 
-/*router.get('/', function (req, res, next) {
-  res.render('index', {
-    title: 'Berytech'
-  });
-});*/
+//try to show table result in new webpag
 router.get('/table', function (req, res){
   res.render('../views/sampletable.ejs');
 });
-
+// I include sampletable in index file but this table should be appear before upload not after!!
 router.get('/', function (req, res){
-  //res.render('../views/sampletable.ejs');
- res.render('../views/sampletable.ejs');
+ res.render('../views/index.ejs');
 });
 
 router.post('/', function (req, res){
@@ -34,8 +29,8 @@ router.post('/', function (req, res){
   form.on('fileBegin', function (name, file){
 
       file.path = __dirname + './../uploads/' + "Data.xlsx";
-      //UGctrl.CreateUG(); it seems like the file not uploaded yet
   });
+  //fetch usergroup list to update local db before call createUG() function
   UsrGroupListctrl.fetchUsrGroupList();
 
   form.on('file', function (name, file){
@@ -43,13 +38,18 @@ router.post('/', function (req, res){
       //UsrGroupctrl.CreateUG();
   });
 
-  res.render('../views/sampletable.ejs',{message:"successful uploaded"});
+  res.render('../views/index.ejs',{message:"successful uploaded"});
 });
-
+//trying to show returned message after calling CreateUG() but it seems that message doesn't show
 router.get('/result', function (req, res){
   var r = UsrGroupctrl.CreateUG();
   res.send(r);
 });
-
+// try to test a sum function if I can display the returned value on webpage 
+// thye test is successful and result appears
+router.get('/test', function (req, res){
+  var s = ctrl.sum(3,9);
+  res.send(s);
+});
 
 module.exports = router;

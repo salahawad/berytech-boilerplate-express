@@ -37,11 +37,11 @@ const result = excelToJson({
     }
 });
 console.log(result.sheet1);
-//remover repetition in team-name column from json format and save it in array
-arrUG = [];
+//remover repetition in teamName field and save it in an array
+arrUsrGroup = [];
 for (var j = 0; j < result.sheet1.length; j++) {
-    if(arrUG.indexOf(result.sheet1[j].teamName) == -1 ){
-        arrUG.push(result.sheet1[j].teamName);
+    if(arrUsrGroup.indexOf(result.sheet1[j].teamName) == -1 ){
+        arrUsrGroup.push(result.sheet1[j].teamName);
     }
 }
 //console.log(arrUG);
@@ -50,49 +50,42 @@ var message="";
 run().catch(err => console.log(err));
 
 async function run(usrgroup) {
-    //move all static variable outside the function
-    usrgroup = arrUG;
+    usrgroup = arrUsrGroup;
 
     await client.connect();
     const database = client.db("gardeniadb");
     const collection = database.collection("UserGroup");
     
-    //var message="";
     for (var i = 0; i < usrgroup.length; i++) {
         const query = { name: usrgroup[i]};
-    
+        // search for usergroup name in db
         const UG = await UserGroup.findOne(query);
+        // if usergroup name not exist the call API to create it
         if(!UG){
-            console.log(usrgroup[i] + "not exist");
-    
             const res = await axios.post(url, {
             channel: 'general',
             name: usrgroup[i]
             }, { headers: { authorization: `Bearer ${slackToken}` } });
 
-            console.log('Done', res.data);
-
+            //console.log('Done', res.data);
             if(!res.data) return;
             if(res.data.ok == false) return;
             var userGroup = res.data.usergroup;
+            //console.log(userGroup.name + " is created");
 
-            console.log(userGroup.name + " is created");
-    
+            // add new usergroup to local db with status:active
             await UserGroup.create({ name: userGroup.name , id: userGroup.id, status: "active" },(err,data)=>{
                 //console.log(userGroup.name + " this document is saved");
                 message+= userGroup.name + " this document is saved";
                 message+="  ";
             });
-
         }else{
             message+= usrgroup[i] + " already exist";
             message+="  ";
-
     }
     }
     console.log(message);
-    //return message;
-    
+    //return message;  
 }
 arrUG = [];
 return ("after execution" + message );
