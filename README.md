@@ -1,2 +1,21 @@
 # berytech-boilerplate-express
- A berytech Expressjs and ejs boilerplate
+ A tiny web application that aims to interact with slack to automate some tasks on slackworkspace like:
+ * invite users to slackworkspace.
+ * create usergroups directly in slackworkspace.
+ 
+ the application scope now is to create usergroups into workspace, this how it works?
+ 1. admin can upload an excel file composed mainly of :
+    * user first-name
+    * user last-name
+    * user team-name
+    * action needed to perform by admin.(add user, delete user)
+ 2. once the file uploaded, the application will create the usergroups(team-name) into slackworkspace.
+
+# Setting
+# Environment Variables
+You should set environment variables directly or in .env file, so 
+create a file in the root called .env with the following key/value pairs. (.env files are added to the .gitignore.)
+* dburl="mongodb://localhost:27017/dbName"
+* PORT=3001
+* token= 'xoxp-xxxx-xxxxxxxxx-xxxx'
+
