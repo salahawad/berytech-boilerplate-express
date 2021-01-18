@@ -24,12 +24,11 @@ router.get('/table', function (req, res){
 
 router.get('/', function (req, res){
   //res.render('../views/sampletable.ejs');
- res.render('../views/index.ejs');
+ res.render('../views/sampletable.ejs');
 });
 
 router.post('/', function (req, res){
   var form = new formidable.IncomingForm();
-
   form.parse(req);
 
   form.on('fileBegin', function (name, file){
@@ -44,11 +43,12 @@ router.post('/', function (req, res){
       //UsrGroupctrl.CreateUG();
   });
 
-  res.render('../views/index.ejs',{message:"successful uploaded"},);
+  res.render('../views/sampletable.ejs',{message:"successful uploaded"});
 });
 
 router.get('/result', function (req, res){
-  res.send(UsrGroupctrl.CreateUG());
+  var r = UsrGroupctrl.CreateUG();
+  res.send(r);
 });
 
 
