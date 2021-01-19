@@ -36,8 +36,6 @@ router.post('/', function (req, res) {
     //fetch usergroup list to update local db before call createUG() function    
     UsrGroupctrl.CreateUG(file).then((msg) => {
        UsrGroupListctrl.fetchUsrGroupList().then((message) => {
-      
-        console.log(msg);
         res.render('index.ejs', {
           message: `successful uploaded with the following status: <br/>Usergroup Creation:<br/>${msg} <br/> Sync usergroups:<br/> ${message} `
         });

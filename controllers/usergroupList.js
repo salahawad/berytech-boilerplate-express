@@ -32,11 +32,6 @@ exports.fetchUsrGroupList = async  ()=> {
             status: "deactive"
         }
     });
-    console.log(
-        updatedData.result.nModified +
-        " usergroups deactivate its status in database"
-    );
-
     //call API to fetch usergroup list from slackworkspace
     const res = await axios.post(
         url, {}, {

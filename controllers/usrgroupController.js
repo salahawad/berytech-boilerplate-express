@@ -71,12 +71,9 @@ exports.CreateUG = async (file) => {
                     }
                 }
             );
-
-            //console.log('Done', res.data);
             if (!res.data) return;
             if (res.data.ok == false) return;
             var userGroup = res.data.usergroup;
-            //console.log(userGroup.name + " is created");
 
             // add new usergroup to local db with status:active
             await UserGroup.create({
@@ -85,7 +82,6 @@ exports.CreateUG = async (file) => {
                     status: "active"
                 },
                 (err, data) => {
-                    //console.log(userGroup.name + " this document is saved");
                     message += `${userGroup.name} is updated <br/>`;
 
                 }
