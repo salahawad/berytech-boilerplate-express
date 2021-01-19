@@ -22,7 +22,8 @@ mongoose.connect(mongoDB, {
     useUnifiedTopology: true,
 });
 
-exports.CreateUG = function (file) {
+exports.CreateUG = async (file) => {
+    var message = "";
     //read excel file and convert it to json form
     const result = excelToJson({
         sourceFile: file.path,
@@ -36,7 +37,7 @@ exports.CreateUG = function (file) {
             D: "teamName",
         },
     });
-    
+
     //remover repetition in teamName field and save it in an array
     let arrUsrGroup = [];
     for (var j = 0; j < result.sheet1.length; j++) {
@@ -44,60 +45,54 @@ exports.CreateUG = function (file) {
             arrUsrGroup.push(result.sheet1[j].teamName);
         }
     }
-  
-    var message = "";
 
-    run().catch((err) => console.log(err));
+    let usrgroup = arrUsrGroup;
+    await client.connect();
+    const database = client.db("gardeniadb");
+    const collection = database.collection("UserGroup");
 
-    async function run(usrgroup) {
-        usrgroup = arrUsrGroup;
+    for (var i = 0; i < usrgroup.length; i++) {
+        const query = {
+            name: usrgroup[i]
+        };
+        // search for usergroup name in db
+        let UG = await UserGroup.findOne(query);
 
-        await client.connect();
-        const database = client.db("gardeniadb");
-        const collection = database.collection("UserGroup");
+        // if usergroup name not exist the call API to create it
+        if (!UG) {
 
-        for (var i = 0; i < usrgroup.length; i++) {
-            const query = {
-                name: usrgroup[i]
-            };
-            // search for usergroup name in db
-            const UG = await UserGroup.findOne(query);
-            // if usergroup name not exist the call API to create it
-            if (!UG) {
-                const res = await axios.post(
-                    url, {
-                        channel: "general",
-                        name: usrgroup[i],
-                    }, {
-                        headers: {
-                            authorization: `Bearer ${slackToken}`
-                        }
+            let res = await axios.post(
+                url, {
+                    channel: "general",
+                    name: usrgroup[i],
+                }, {
+                    headers: {
+                        authorization: `Bearer ${slackToken}`
                     }
-                );
+                }
+            );
 
-                //console.log('Done', res.data);
-                if (!res.data) return;
-                if (res.data.ok == false) return;
-                var userGroup = res.data.usergroup;
-                //console.log(userGroup.name + " is created");
+            //console.log('Done', res.data);
+            if (!res.data) return;
+            if (res.data.ok == false) return;
+            var userGroup = res.data.usergroup;
+            //console.log(userGroup.name + " is created");
 
-                // add new usergroup to local db with status:active
-                await UserGroup.create({
-                        name: userGroup.name,
-                        id: userGroup.id,
-                        status: "active"
-                    },
-                    (err, data) => {
-                        //console.log(userGroup.name + " this document is saved");
-                        message += `${userGroup.name} is updated <br/>`;
-                        
-                    }
-                );
-            } else {
-                message +=  `${usrgroup[i]} already exist <br/>`;
-                
-            }
-        }       
+            // add new usergroup to local db with status:active
+            await UserGroup.create({
+                    name: userGroup.name,
+                    id: userGroup.id,
+                    status: "active"
+                },
+                (err, data) => {
+                    //console.log(userGroup.name + " this document is saved");
+                    message += `${userGroup.name} is updated <br/>`;
+
+                }
+            );
+        } else {
+            message += `${usrgroup[i]} already exist <br/>`;
+        }
     }
     return message;
 };

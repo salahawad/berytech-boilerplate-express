@@ -18,7 +18,7 @@ mongoose.connect(mongoDB, {
     useUnifiedTopology: true,
 });
 
-exports.fetchUsrGroupList = async  (file)=> {
+exports.fetchUsrGroupList = async  ()=> {
     var message = "";
     await client.connect();
     const database = client.db("gardeniadb");
@@ -67,7 +67,7 @@ exports.fetchUsrGroupList = async  (file)=> {
                     status: "active"
                 },
                 (err, data) => {
-                    message +=  ` the ${ data.name} document is saved <br/>`;
+                    message +=  ` the ${ data.name} is saved <br/>`;
                    
                 }
             );        
