@@ -1,24 +1,17 @@
 const axios = require("axios");
 const excelToJson = require("convert-excel-to-json");
 ("use strict");
-var mongoDB = process.env.dburl;
-var UserGroup = require("../models/usrgroup");
 const slackToken = process.env.token;
-let mongoose = require("mongoose");
-const {
-    MongoClient
-} = require("mongodb");
-
-const client = new MongoClient(process.env.dburl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-//connecting to the database
+var mongoose = require("mongoose");
+var mongoDB = process.env.dburl;
 mongoose.connect(mongoDB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
 });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+var UserGroup = require("../models/usrgroup");
 
 exports.CreateUG = async (file) => {
     var message = "";
@@ -45,9 +38,7 @@ exports.CreateUG = async (file) => {
     }
 
     let usrgroup = arrUsrGroup;
-    await client.connect();
-    const database = client.db("gardeniadb");
-    const collection = database.collection("UserGroup");
+    const collection = db.collection("UserGroup");
 
     for (var i = 0; i < usrgroup.length; i++) {
         const query = {

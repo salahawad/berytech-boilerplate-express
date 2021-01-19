@@ -6,12 +6,6 @@ var ctrl = require('../controllers/function')
 var router = express.Router();
 var formidable = require('formidable');
 
-//connecting to the database
-var mongoDB = process.env.dburl;
-var mongoose = require('mongoose');
-mongoose.connect(mongoDB, {
-  useNewUrlParser: true
-})
 
 //try to show table result in new webpag
 router.get('/table', function (req, res) {
@@ -34,8 +28,8 @@ router.post('/', function (req, res) {
   form.on('file', function (name, file) {
 
     //fetch usergroup list to update local db before call createUG() function    
-    UsrGroupctrl.CreateUG(file).then((msg) => {
-       UsrGroupListctrl.fetchUsrGroupList().then((message) => {
+    UsrGroupListctrl.fetchUsrGroupList().then((message) => {
+      UsrGroupctrl.CreateUG(file).then((msg) => {
         res.render('index.ejs', {
           message: `successful uploaded with the following status: <br/>Usergroup Creation:<br/>${msg} <br/> Sync usergroups:<br/> ${message} `
         });
