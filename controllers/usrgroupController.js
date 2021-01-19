@@ -4,14 +4,12 @@ const excelToJson = require("convert-excel-to-json");
 var mongoDB = process.env.dburl;
 var UserGroup = require("../models/usrgroup");
 const slackToken = process.env.token;
-const url = "https://slack.com/api/usergroups.create";
-const uri = "mongodb://localhost:27017/";
 let mongoose = require("mongoose");
 const {
     MongoClient
 } = require("mongodb");
 
-const client = new MongoClient(uri, {
+const client = new MongoClient(process.env.dburl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -62,7 +60,7 @@ exports.CreateUG = async (file) => {
         if (!UG) {
 
             let res = await axios.post(
-                url, {
+            process.env.slackcreateusergroupapi, {
                     channel: "general",
                     name: usrgroup[i],
                 }, {

@@ -1,5 +1,4 @@
 const slackToken = process.env.token;
-const url = "https://slack.com/api/usergroups.list";
 const axios = require("axios");
 const {
     MongoClient
@@ -34,7 +33,7 @@ exports.fetchUsrGroupList = async  ()=> {
     });
     //call API to fetch usergroup list from slackworkspace
     const res = await axios.post(
-        url, {}, {
+        process.env.slackusergroupapi, {}, {
             headers: {
                 authorization: `Bearer ${slackToken}`
             }
